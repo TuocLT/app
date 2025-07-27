@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safety QR Code</title>
+
+  <!-- Cấu hình iOS Web App -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="QR Safety">
+  <link rel="apple-touch-icon" href="https://i.postimg.cc/N01Hhdcn/ok.png">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1b1b2f;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #262638;
+      padding: 15px;
+      border-radius: 15px;
+      display: block;
+      max-width: 95%;
+      margin: auto;
+    }
+
+    .name-row {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .highlight {
+      background-color: #ffc107;
+      color: white;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .qr-box {
+      background-color: #ffffff;
+      color: black;
+      padding: 15px 10px;
+      border-radius: 12px;
+      margin-top: 5px;
+    }
+
+    .qr-box img {
+      width: 80%;
+      max-width: 240px;
+      height: auto;
+    }
+
+    .refresh-text {
+      font-size: 15px;
+      color: #444;
+      margin-top: 10px;
+    }
+
+    #datetime {
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    #timer {
+      color: green;
+      font-size: 15px;
+      margin-top: 4px;
+    }
+
+    .footer {
+      margin-top: 20px;
+      color: #ccc;
+      font-size: 15px;
+      line-height: 1.6;
+      padding: 0 5px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="name-row">Vũ Thị Thu Huyền (V25050032)</div>
+
+    <div class="highlight">
+      Your device has met the safety regulations,<br>please scan the code
+    </div>
+
+    <div class="qr-box">
+      <div id="datetime"></div>
+      <img src="https://i.postimg.cc/1XtJX4Zx/Superqr-svg.png" alt="QR Code">
+      <div class="refresh-text">Refresh QR code</div>
+      <div id="timer">00:00</div>
+    </div>
+
+    <div class="footer">
+      尊敬的员工您好，您已进入企业涉密区域，出于企业安全考虑，您的手机摄像头将被禁止拍摄，感谢您的配合。
+    </div>
+  </div>
+
+  <script>
+    const datetimeEl = document.getElementById("datetime");
+    const timerEl = document.getElementById("timer");
+
+    let secondsElapsed = 0;
+
+    function updateTime() {
+      const now = new Date();
+      const date = now.toISOString().split('T')[0];
+      const time = now.toTimeString().split(' ')[0];
+      datetimeEl.textContent = `${date} ${time}`;
+
+      secondsElapsed++;
+
+      // Reset every 5 minutes (300 seconds)
+      if (secondsElapsed > 300) {
+        secondsElapsed = 0;
+      }
+
+      const minutes = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+      const seconds = String(secondsElapsed % 60).padStart(2, '0');
+      timerEl.textContent = `${minutes}:${seconds}`;
+    }
+
+    updateTime();
+    setInterval(updateTime, 1000);
+  </script>
+</body>
+</html>
